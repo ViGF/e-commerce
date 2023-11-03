@@ -9,8 +9,8 @@ interface ProductItem {
 
 export function ProductItem({ product }: ProductItem) {
   return (
-    <div className="flex flex-col min-w-[170px]">
-      <div className="relative bg-accent rounded-lg h-[170px] flex justify-center items-center">
+    <div className="flex flex-col">
+      <div className="relative bg-accent rounded-lg h-[170px] w-full flex justify-center items-center">
         <Image
           src={product.imageUrls[0]}
           width={0}

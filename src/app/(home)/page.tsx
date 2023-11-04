@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Categories } from "./components/ui/Categories";
 import { prismaClient } from "@/lib/prisma";
 import { ProductList } from "../../components/ui/ProductList";

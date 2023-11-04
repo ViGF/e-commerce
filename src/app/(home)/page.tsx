@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Categories } from "./components/Categories";
+import { Categories } from "./components/ui/Categories";
 import { prismaClient } from "@/lib/prisma";
 import { ProductList } from "../../components/ui/ProductList";
 import { SectionTitle } from "../../components/ui/SectionTitle";

@@ -1,9 +1,9 @@
 "use client"
 
-import { Product } from "@prisma/client";
-import { ReactNode, createContext, useState } from "react";
+import { ProductWithTotalPrice } from "@/helpers/product";
+import { ReactNode, createContext, useMemo, useState } from "react";
 
-export interface CartProduct extends Product {
+export interface CartProduct extends ProductWithTotalPrice {
   quantity: number
 }
 
@@ -12,6 +12,9 @@ interface ICartContext {
   cartTotalPrice: number
   cartBasePrice: number
   cartTotalDiscount: number
+  subTotal: number
+  totalPrice: number
+  totalDiscount: number
   addProductToCart: (product: CartProduct) => void
   decreaseProductQuantity: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
@@ -23,6 +26,9 @@ export const CartContext = createContext<ICartContext>({
   cartTotalPrice: 0,
   cartBasePrice: 0,
   cartTotalDiscount: 0,
+  subTotal: 0,
+  totalPrice: 0,
+  totalDiscount: 0,
   addProductToCart: (product: CartProduct) => {},
   decreaseProductQuantity: (productId: string) => {},
   increaseProductQuantity: (productId: string) => {},
@@ -31,6 +37,20 @@ export const CartContext = createContext<ICartContext>({
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const subTotal = useMemo(() => {
+    return products.reduce((acc, product) => {
+      return acc + Number(product.basePrice)
+    }, 0)
+  }, [products])
+
+  const totalPrice = useMemo(() => {
+    return products.reduce((acc, product) => {
+      return acc + product.totalPrice
+    }, 0)
+  }, [products])
+
+  const totalDiscount = subTotal - totalPrice
 
   const addProductToCart = (product: CartProduct) => {
     const productAlreadyOnCart = products.some(cartProduct => cartProduct.id === product.id)
@@ -86,6 +106,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       cartTotalPrice: 0,
       cartBasePrice: 0,
       cartTotalDiscount: 0,
+      totalPrice,
+      totalDiscount,
+      subTotal,
       addProductToCart,
       decreaseProductQuantity,
       increaseProductQuantity,

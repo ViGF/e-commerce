@@ -7,9 +7,21 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "./separator";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
+import { createCheckout } from "@/actions/checkout";
+import { loadStripe } from "@stripe/stripe-js"
 
 export function Cart() {
   const { products, subTotal, totalDiscount, totalPrice } = useContext(CartContext)
+
+  const handleFinishPurchaseClick = async () => {
+    const checkout = await createCheckout(products)
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+
+    stripe?.redirectToCheckout({
+      sessionId: checkout.id
+    })
+  }
 
   return (
     <div className="flex flex-col h-full gap-4">
@@ -64,7 +76,12 @@ export function Cart() {
           <p>R$ {totalPrice.toFixed(2)}</p>
         </div>
       </div>
-      <Button className="uppercase font-bold">Finalizar Compra</Button>
+      <Button
+        className="uppercase font-bold"
+        onClick={handleFinishPurchaseClick}
+      >
+        Finalizar Compra
+      </Button>
     </div>
   )
 }

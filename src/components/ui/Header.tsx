@@ -62,20 +62,28 @@ export function Header() {
                 Fazer Login
               </Button>
             )}
+
             {status === 'authenticated' && (
               <Button className="w-full justify-start gap-2" variant="outline" onClick={handleLogOutClick}>
                 <LogOutIcon />
                 Fazer Logout
               </Button>
             )}
-            <Button className="w-full justify-start gap-2" variant="outline">
-              <HomeIcon size={16} />
-              Início
-            </Button>
+
+            <SheetClose asChild>
+              <Link href="/">
+                <Button className="w-full justify-start gap-2" variant="outline">
+                  <HomeIcon size={16} />
+                  Início
+                </Button>
+              </Link>
+            </SheetClose>
+
             <Button className="w-full justify-start gap-2" variant="outline">
               <PercentIcon size={16} />
               Ofertas
             </Button>
+
             <SheetClose asChild>
               <Link href='/catalog'>
                 <Button className="w-full justify-start gap-2" variant="outline">
@@ -101,6 +109,7 @@ export function Header() {
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>
+        
         <SheetContent>
           <Cart />
         </SheetContent>

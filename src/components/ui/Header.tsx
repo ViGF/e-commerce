@@ -79,10 +79,14 @@ export function Header() {
               </Link>
             </SheetClose>
 
-            <Button className="w-full justify-start gap-2" variant="outline">
-              <PercentIcon size={16} />
-              Ofertas
-            </Button>
+            <SheetClose asChild>
+              <Link href="/deals">
+                <Button className="w-full justify-start gap-2" variant="outline">
+                  <PercentIcon size={16} />
+                  Ofertas
+                </Button>
+              </Link>
+            </SheetClose>
 
             <SheetClose asChild>
               <Link href='/catalog'>
@@ -109,7 +113,7 @@ export function Header() {
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>
-        
+
         <SheetContent>
           <Cart />
         </SheetContent>
